@@ -21,50 +21,43 @@ const MisDatos = () => {
   const resultCheckNewsPass = checkNewPasswordsHook(misDatos);
   const [isLoading, setIsLoading] = useState(false);
 
-  const checkTokenCompletoHook = () => {
-    const { push } = useRouter();
+  const [checkToken, setCheckToken] = useState({
+    valido: false,
+    terminoElChequeo: false,
+  });
+  const [inicializar, setInicializar] = useState(true);
 
-    const [checkToken, setCheckToken] = useState({
-      valido: false,
-      terminoElChequeo: false,
-    });
-    const [inicializar, setInicializar] = useState(true);
-
-    const callbackCheckToken = (respuesta: any) => {
-      if (respuesta.error) {
-        //el checktokenvalid tiene dos atributos, si es valido o no el token
-        //y si se termino el cheaque
-        setCheckToken({ valido: false, terminoElChequeo: true });
-      } else {
-        setCheckToken({ valido: true, terminoElChequeo: true });
-      }
-    };
-
-    //este estado de inicializar lo cree para que solo se ejecute una vez el
-    //chequeo del tengo de la api
-    useEffect(() => {
-      checkTokenValidoHook(callbackCheckToken);
-    }, [inicializar]);
-
-    //cada vez que cambia el stado del chequeo se ejecuta
-    useEffect(() => {
-      //si el chequeo termino entonces entro en el if
-      if (checkToken.terminoElChequeo) {
-        //si fue valido no hay problema, pero sino fue valido, entonces
-        //te notificara que no estas conectado y que vayas al sign-in
-        if (checkToken.valido) {
-        } else {
-          alert(
-            "No esta conectado a alguna cuenta, por favor inicie sesión para acceder a esta opción"
-          );
-          push("/sign-in");
-        }
-      }
-    }, [checkToken]);
+  const callbackCheckToken = (respuesta: any) => {
+    if (respuesta.error) {
+      //el checktokenvalid tiene dos atributos, si es valido o no el token
+      //y si se termino el cheaque
+      setCheckToken({ valido: false, terminoElChequeo: true });
+    } else {
+      setCheckToken({ valido: true, terminoElChequeo: true });
+    }
   };
 
-  //con este hook chequeamos que sea un token valido
-  checkTokenCompletoHook();
+  //este estado de inicializar lo cree para que solo se ejecute una vez el
+  //chequeo del tengo de la api
+  useEffect(() => {
+    checkTokenValidoHook(callbackCheckToken);
+  }, [inicializar]);
+
+  //cada vez que cambia el stado del chequeo se ejecuta
+  useEffect(() => {
+    //si el chequeo termino entonces entro en el if
+    if (checkToken.terminoElChequeo) {
+      //si fue valido no hay problema, pero sino fue valido, entonces
+      //te notificara que no estas conectado y que vayas al sign-in
+      if (checkToken.valido) {
+      } else {
+        alert(
+          "No esta conectado a alguna cuenta, por favor inicie sesión para acceder a esta opción"
+        );
+        push("/sign-in");
+      }
+    }
+  }, [checkToken]);
 
   //este callback se va a ejecutar cuando termine el fetch de
   //la api de editarMisDatos

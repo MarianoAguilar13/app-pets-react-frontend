@@ -7,53 +7,47 @@ import Css from "./index.module.css";
 import { Layout } from "@/components/layout";
 
 const MisPets = () => {
-  const checkTokenCompletoHook = () => {
-    const { push } = useRouter();
-
-    const [checkToken, setCheckToken] = useState({
-      valido: false,
-      terminoElChequeo: false,
-    });
-    const [inicializar, setInicializar] = useState(true);
-
-    const callbackCheckToken = (respuesta: any) => {
-      if (respuesta.error) {
-        //el checktokenvalid tiene dos atributos, si es valido o no el token
-        //y si se termino el cheaque
-        setCheckToken({ valido: false, terminoElChequeo: true });
-      } else {
-        setCheckToken({ valido: true, terminoElChequeo: true });
-      }
-    };
-
-    //este estado de inicializar lo cree para que solo se ejecute una vez el
-    //chequeo del tengo de la api
-    useEffect(() => {
-      checkTokenValidoHook(callbackCheckToken);
-    }, [inicializar]);
-
-    //cada vez que cambia el stado del chequeo se ejecuta
-    useEffect(() => {
-      //si el chequeo termino entonces entro en el if
-      if (checkToken.terminoElChequeo) {
-        //si fue valido no hay problema, pero sino fue valido, entonces
-        //te notificara que no estas conectado y que vayas al sign-in
-        if (checkToken.valido) {
-        } else {
-          alert(
-            "No esta conectado a alguna cuenta, por favor inicie sesión para acceder a esta opción"
-          );
-          push("/sign-in");
-        }
-      }
-    }, [checkToken]);
-  };
-  //primero checkea que el token sea valido
-  checkTokenCompletoHook();
-
   const [comenzar, setComenzar] = useState(true);
   const [myPets, setMyPets] = useState([]);
   const { push } = useRouter();
+
+  const [checkToken, setCheckToken] = useState({
+    valido: false,
+    terminoElChequeo: false,
+  });
+  const [inicializar, setInicializar] = useState(true);
+
+  const callbackCheckToken = (respuesta: any) => {
+    if (respuesta.error) {
+      //el checktokenvalid tiene dos atributos, si es valido o no el token
+      //y si se termino el cheaque
+      setCheckToken({ valido: false, terminoElChequeo: true });
+    } else {
+      setCheckToken({ valido: true, terminoElChequeo: true });
+    }
+  };
+
+  //este estado de inicializar lo cree para que solo se ejecute una vez el
+  //chequeo del tengo de la api
+  useEffect(() => {
+    checkTokenValidoHook(callbackCheckToken);
+  }, [inicializar]);
+
+  //cada vez que cambia el stado del chequeo se ejecuta
+  useEffect(() => {
+    //si el chequeo termino entonces entro en el if
+    if (checkToken.terminoElChequeo) {
+      //si fue valido no hay problema, pero sino fue valido, entonces
+      //te notificara que no estas conectado y que vayas al sign-in
+      if (checkToken.valido) {
+      } else {
+        alert(
+          "No esta conectado a alguna cuenta, por favor inicie sesión para acceder a esta opción"
+        );
+        push("/sign-in");
+      }
+    }
+  }, [checkToken]);
 
   //callback que se ejecuta al final de la llamada de la api
   const callbackMyPets = (respuesta: any) => {
