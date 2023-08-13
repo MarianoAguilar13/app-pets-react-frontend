@@ -11,7 +11,7 @@ function Header() {
   const [checkTokenValid, setCheckTokenValid] = useRecoilState(checkToken);
   const { push } = useRouter();
 
-  const useCerrarSesion = () => {
+  const cerrarSesion = () => {
     setMisDatosData({
       name: "",
       password: "",
@@ -103,7 +103,7 @@ function Header() {
               localStorage.setItem("Token", "");
               alert("Se ha cerrado sesión");
               console.log("este es el token:", localStorage.getItem("Token"));
-              useCerrarSesion();
+              cerrarSesion();
               push("/");
             }}
             className={Css.headerLinksLink}
@@ -180,7 +180,7 @@ function Header() {
             alert("Se ha cerrado sesión");
             console.log(localStorage.getItem("Token"));
             cerrarVentana();
-            useCerrarSesion();
+            cerrarSesion();
             push("/");
           }}
           className={Css.ventanaLinksLink + " " + Css.linkCuatro}
