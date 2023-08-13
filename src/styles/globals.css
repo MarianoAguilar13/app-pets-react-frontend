@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+:root {
+  --azulino: #4f7cac;
+  --aquaMar: #91e5f6;
+  --violet: #4d4ab1;
+  --verdeLoro: #14c46c;
+  --wine: rgb(34, 24, 100);
+  --verdeHierba: #83ee9e;
+  --poppins: "Poppins", sans-serif;
+}
